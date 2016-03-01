@@ -1,0 +1,2 @@
+perl -nlaF: -e 'for (my $i=0; $i<@F;++$i) {if( $F[$i] > 10) {print "$., $i";}}'
+
