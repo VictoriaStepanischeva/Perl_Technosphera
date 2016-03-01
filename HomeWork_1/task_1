@@ -1,1 +1,1 @@
-ls -l | perl -lna -e '@F = split(" ", $_); if ($.>1) {$q+=1; if ($F[4]>1024*1024) {$k+=1; print "@F[8..$#F]";}} END { print "$k $q";}'
+ls -l | perl -lna -e 'if ($F[4]>2**20) {$k+=1; print "@F[8..$#F]";} END { print $k ? $k: 0," ",($.-1);}'
