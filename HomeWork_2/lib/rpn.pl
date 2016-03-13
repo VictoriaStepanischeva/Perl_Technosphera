@@ -40,15 +40,15 @@ sub priority
 
 sub rpn
 {
-	my $expr = shift;
-	my $source = tokenize($expr);
+    my $expr = shift;
+    my $source = tokenize($expr);
     my @rpn;
     my @stack;
     for (@{$source})
     {
         if ($_ eq '(')
         {
-        push(@stack, $_);
+            push(@stack, $_);
         }
         elsif ($_ eq ')')
         {
@@ -77,7 +77,7 @@ sub rpn
     {
         push(@rpn, pop(@stack));
     }
-	return \@rpn;
+    return \@rpn;
 }
 
 1;

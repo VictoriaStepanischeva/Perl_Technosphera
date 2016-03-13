@@ -33,7 +33,7 @@ sub is_unary
 
 sub evaluate
 {
-	my $rpn = shift;
+    my $rpn = shift;
     my @rpn = @{$rpn};
     my @stack;
     while (@rpn > 0)

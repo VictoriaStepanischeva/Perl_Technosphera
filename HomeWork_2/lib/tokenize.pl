@@ -26,10 +26,10 @@ BEGIN{
 no warnings 'experimental';
 
 sub tokenize {
-	chomp(my $expr = shift);
+    chomp(my $expr = shift);
     $expr =~ s/e\+/eplus/g;
     $expr =~ s/e\-/eminus/g;
-	my @res = split m!([-+/*^()])!, $expr;
+    my @res = split m!([-+/*^()])!, $expr;
     my $prevtok = '';
     my $is_valid = 0;
     my $is_valid_bracket = 0;
@@ -74,7 +74,7 @@ sub tokenize {
     }
     die "Error" if $is_valid != 1 or $is_valid_bracket != 0;
     @res = grep(!/^\s*$/, @res);
-	return \@res;
+    return \@res;
 }
 
 1;
