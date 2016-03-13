@@ -17,12 +17,52 @@ BEGIN{
 }
 no warnings 'experimental';
 
-sub evaluate {
+sub is_binary
+{
+    my $oper = shift;
+    return 1 if ($oper eq '+' or $oper eq '-' or $oper eq '*' or $oper eq '/' or $oper eq '^');
+    return 0;
+}
+
+sub is_unary
+{
+    my $oper = shift;
+    return 1 if ($oper eq 'U+' or $oper eq 'U-');
+    return 0;
+}
+
+sub evaluate
+{
 	my $rpn = shift;
-
-	# ...
-
-	return 0;
+    my @rpn = @{$rpn};
+    my @stack;
+    while (@rpn > 0)
+    {
+        my $current = shift(@rpn);
+        if (is_binary($current))
+        {
+            my $right = pop(@stack);
+            my $left = pop(@stack);
+            if ($current eq '^')
+            {
+                push(@stack, eval $left.'**'.$right);
+            }
+            else
+            {
+                push(@stack, eval $left.$current.$right);
+            }
+        }
+        elsif (is_unary($current))
+        {
+            $current =~ s/U//;
+            push(@stack, eval $current.' '.pop(@stack));
+        }
+        else
+        {
+            push(@stack, 0 + $current);
+        }
+    }
+    return pop(@stack);
 }
 
 1;

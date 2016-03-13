@@ -3,10 +3,8 @@
 use 5.010;
 use strict;
 use Test::More;
-use Test::Deep;
 use FindBin;
 
-sub tokenize($);
 require "$FindBin::Bin/../lib/tokenize.pl";
 
 sub test_good_tokenize($$) {

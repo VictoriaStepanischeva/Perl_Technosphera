@@ -27,10 +27,53 @@ no warnings 'experimental';
 
 sub tokenize {
 	chomp(my $expr = shift);
-	my @res;
-
-	# ...
-
+    $expr =~ s/e\+/eplus/g;
+    $expr =~ s/e\-/eminus/g;
+	my @res = split m!([-+/*^()])!, $expr;
+    my $prevtok = '';
+    my $is_valid = 0;
+    my $is_valid_bracket = 0;
+    for (@res)
+    {
+        if ($prevtok =~ /^\s*$/ and $_ =~ /([-+])/)
+        {
+            $_ = 'U'.$1;
+        }
+        elsif ($_ =~ m![-+/*^]!)
+        {
+            $is_valid--;
+        }
+        elsif ($_ eq '(')
+        {
+            $is_valid_bracket++;
+        }
+        elsif ($_ eq ')')
+        {
+            $is_valid_bracket--;
+        }
+        elsif ($_ =~ /^\s*$/)
+        {
+            next;
+        }
+        elsif ($_ =~ /^\s*(\d*\.?\d*(e|eplus|eminus)?\d+)\s*$/)
+        {
+            $is_valid++;
+            $_ =~ s/eplus/e+/g;
+            $_ =~ s/eminus/e-/g;
+            $_ += 0;
+        }
+        else
+        {
+            die "Error";
+        }
+    }
+    continue
+    {
+        die "Error" if $is_valid_bracket < 0;
+        $prevtok = $_;
+    }
+    die "Error" if $is_valid != 1 or $is_valid_bracket != 0;
+    @res = grep(!/^\s*$/, @res);
 	return \@res;
 }
 
