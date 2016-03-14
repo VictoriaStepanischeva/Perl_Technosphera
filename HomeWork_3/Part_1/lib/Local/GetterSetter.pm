@@ -32,4 +32,15 @@ our $VERSION = '1.00';
 
 =cut
 
+sub import
+{
+    my @parent = caller();
+    for my $qq (@_)
+    {
+        no strict 'refs';
+        *{$parent[0].'::get_'.$qq} = sub { return ${$parent[0].'::'.$qq}; };
+        *{$parent[0].'::set_'.$qq} = sub { ${$parent[0].'::'.$qq} = shift(); };
+    }
+}
+
 1;
