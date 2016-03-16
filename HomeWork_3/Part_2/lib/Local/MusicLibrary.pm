@@ -2,7 +2,11 @@ package Local::MusicLibrary;
 
 use strict;
 use warnings;
-
+use Exporter 'import';
+use List::Util 'max';
+use Local::GetRecords;
+use Local::SortAndFilter;
+use Local::Printing;
 =encoding utf8
 
 =head1 NAME
@@ -21,4 +25,23 @@ our $VERSION = '1.00';
 
 =cut
 
+our @EXPORT = qw(main);
+sub main
+{
+    my @input = @{shift()};
+    my $band = shift();
+    my $year = shift();
+    my $album = shift();
+    my $track = shift();
+    my $format = shift();
+    my $sort = shift();
+    my $columns = shift();
+    my $records = get_records(@input);
+    $records = filtration($records, $band, $year, $album, $track, $format);
+    if ($sort)
+    {
+        $records = sorting($records, $sort);
+    }
+    return printing($records, $columns);
+}
 1;
