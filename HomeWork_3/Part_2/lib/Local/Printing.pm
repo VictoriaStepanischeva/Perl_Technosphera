@@ -26,6 +26,10 @@ our @EXPORT = qw(printing);
 sub printing
 {
     my @records = @{shift()};
+    if (!@records)
+    {
+        return "Empty \n";
+    }
     my @columns = @{shift()};
     my %len;
     my @separators;
