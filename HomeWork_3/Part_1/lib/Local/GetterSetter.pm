@@ -35,7 +35,8 @@ our $VERSION = '1.00';
 sub import
 {
     my @parent = caller();
-    for my $qq (@_[1, -1])
+    my ($class, @fields)=@_;
+    for my $qq (@fields)
     {
         no strict 'refs';
         *{$parent[0].'::get_'.$qq} = sub { return ${$parent[0].'::'.$qq}; };
