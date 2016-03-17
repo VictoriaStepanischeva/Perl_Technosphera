@@ -33,11 +33,10 @@ sub printing
     my @columns = @{shift()};
     my %len;
     my @separators;
-    $len{'band'} = max map {length($_->{'band'})} @records;
-    $len{'year'} = max map {length($_->{'year'})} @records; 
-    $len{'album'} = max map {length($_->{'album'})} @records;
-    $len{'track'} = max map {length($_->{'track'})} @records;
-    $len{'format'} = max map {length($_->{'format'})} @records;
+    for my $key ('band', 'year', 'album', 'track', 'format')
+    {
+        $len{$key} = max map {length($_->{$key})} @records;
+    }
     for my $column (@columns)
     {
         push (@separators, '-' x ($len{$column}+2));
