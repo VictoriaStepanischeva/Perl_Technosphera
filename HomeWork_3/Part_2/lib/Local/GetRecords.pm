@@ -1,4 +1,4 @@
-package Local::GetRecords;
+package Local::MusicLibrary::GetRecords;
 
 use strict;
 use warnings;
@@ -25,10 +25,12 @@ our @EXPORT = qw(get_records);
 sub get_records
 {
     my @records;        
-    for my $record(@_)
+    for my $record (@_)
     {
-        $record =~ m{^\./(.*)/(.*) - (.*)/(.*)\.(.*)$};
-        push(@records, {band => $1, year => $2, album => $3, track => $4, format => $5});
+        my %hash;
+        $record =~ m{^\./(?<band>[^/]+)/(?<year>\d+)\s+-\s+(?<album>[^/]+)/(?<track>.+)\.(?<format>.+)$};
+        @hash{qw(band year album track format)} = ($+{band}, $+{year}, $+{album}, $+{track}, $+{format});
+        push(@records, \%hash);
     }
     return \@records;
 }
