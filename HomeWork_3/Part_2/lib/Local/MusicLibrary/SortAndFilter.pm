@@ -22,19 +22,30 @@ our $VERSION = '1.00';
 =cut
 
 our @EXPORT = qw(sorting filtration);
-use Data::Dumper;
+sub num_cmp
+{
+    shift() == shift();
+}
+sub str_cmp
+{
+    shift() eq shift();
+}
 sub filtration
 {
-    my @records = @{shift()};
-    my %filters = ('band'=> shift(), 'year'=> shift(), 'album'=> shift(), 'track'=> shift(), 'format'=> shift());
-    my %functions = ('band'=> sub { $filters{'band'} eq shift(); },
-    'year' => sub { $filters{'year'} ==  shift(); }, 'album'=>  sub { $filters{'album'} eq shift(); }, 
-    'track'=> sub { $filters{'track'} eq shift(); }, 'format'=> sub { $filters{'format'} eq shift(); });
+    my $records = shift();
+    my @records = @{$records};
+    my %filters;
+    @filters{qw(band year album track format)} = @_;
     for my $filter (keys %filters)
     {
-        if ($filters{$filter})
+        next unless defined $filters{$filter};
+        if ($filter eq 'year')
         {
-            @records = grep { $functions{$filter}($_->{$filter}) } @records;
+            @records = grep { num_cmp($filters{$filter}, $_->{$filter}); } @records;
+        }
+        else
+        {
+            @records = grep { str_cmp($filters{$filter}, $_->{$filter}); } @records;
         }
     }
     return \@records;
