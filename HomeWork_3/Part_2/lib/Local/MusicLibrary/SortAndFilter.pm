@@ -1,4 +1,4 @@
-package Local::SortAndFilter;
+package Local::MusicLibrary::SortAndFilter;
 
 use strict;
 use warnings;

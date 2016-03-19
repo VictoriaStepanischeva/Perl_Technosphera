@@ -4,9 +4,9 @@ use strict;
 use warnings;
 use Exporter 'import';
 use List::Util 'max';
-use Local::GetRecords;
-use Local::SortAndFilter;
-use Local::Printing;
+use Local::MusicLibrary::GetRecords;
+use Local::MusicLibrary::SortAndFilter;
+use Local::MusicLibrary::Printing;
 =encoding utf8
 
 =head1 NAME

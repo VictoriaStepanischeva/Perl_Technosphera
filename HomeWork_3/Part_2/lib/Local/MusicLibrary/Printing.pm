@@ -1,4 +1,4 @@
-package Local::Printing;
+package Local::MusicLibrary::Printing;
 
 use strict;
 use warnings;
