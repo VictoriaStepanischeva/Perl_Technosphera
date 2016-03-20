@@ -27,10 +27,8 @@ sub get_records
     my @records;        
     for my $record (@_)
     {
-        my %hash;
         $record =~ m{^\./(?<band>[^/]+)/(?<year>\d+)\s+-\s+(?<album>[^/]+)/(?<track>.+)\.(?<format>.+)$};
-        @hash{qw(band year album track format)} = ($+{band}, $+{year}, $+{album}, $+{track}, $+{format});
-        push(@records, \%hash);
+        push(@records, {%+});
     }
     return \@records;
 }
